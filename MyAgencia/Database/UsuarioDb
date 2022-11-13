@@ -1,0 +1,24 @@
+
+using Microsoft.EntityFrameworkCore;
+using MyAgencia.Model;
+
+namespace MyAgencia.Database
+{
+    public class UsuarioDb : DbContext
+    {
+        public UsuarioDb (DbContextOptions<UsuarioDb>options) : base(options){
+
+        }
+        public DbSet<Usuario> Usuarios {get; set;}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            var usuario = modelBuilder.Entity<Usuario>();
+            usuario.ToTable("id_usuario");
+            usuario.HasKey(x => x.Id_Usuario);
+            usuario.Property(x => x.Id_Usuario).HasColumnName("id_usuario").ValueGeneratedOnAdd();
+            usuario.Property(x => x.Nome).HasColumnName("nome").IsRequired();
+            usuario.Property(x => x.Senha).HasColumnName("senha").ValueGeneratedOnAdd();
+            usuario.Property(x => x.Login).HasColumnName("login").ValueGeneratedOnAdd();
+        }
+    }
+}
